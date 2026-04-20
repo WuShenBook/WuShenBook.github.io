@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安安大小姐 - 零食铺</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* 顶部提示栏样式 */
+        .top-alert {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .alert-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .alert-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .warning {
+            color: #ffdd59;
+            font-weight: bold;
+        }
+
+        .warningRed {
+            color: #f8fd03;
+            font-weight: bold;
+        }
+        
+        .order-btn {
+            background-color: #ff3860;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .order-btn:hover {
+            background-color: #ff2b56;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 主内容区样式 */
+        .main-content {
+            display: flex;
+            flex: 1;
+            max-width: 1200px;
+            margin: 20px auto;
+            width: 100%;
+            padding: 0 15px;
+        }
+        
+        /* 左侧系列列表样式 */
+        .series-sidebar {
+            width: 250px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-right: 20px;
+        }
+        
+        .series-sidebar h2 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #6a11cb;
+            color: #333;
+        }
+        
+        .series-list {
+            list-style: none;
+        }
+        
+        .series-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .series-item i {
+            margin-right: 10px;
+            color: #6a11cb;
+        }
+        
+        .series-item:hover {
+            background-color: #f0f5ff;
+        }
+        
+        .series-item.active {
+            background-color: #6a11cb;
+            color: white;
+        }
+        
+        .series-item.active i {
+            color: white;
+        }
+        
+        /* 右侧章节内容样式 */
+        .chapters-content {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .series-title {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #6a11cb;
+        }
+        
+        .chapters-list {
+            list-style: none;
+        }
+        
+        .chapter-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .chapter-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .chapter-link {
+            color: #2575fc;
+            text-decoration: none;
+            font-weight: 500;
+            flex: 1;
+        }
+        
+        .chapter-link:hover {
+            color: #6a11cb;
+            text-decoration: underline;
+        }
+        
+        .download-btn {
+            background-color: #00d1b2;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            background-color: #00c4a7;
+            transform: translateY(-2px);
+        }
+        
+        /* 页脚样式 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+            margin-top: 30px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .series-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .alert-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .alert-text {
+                margin-bottom: 10px;
+            }
+            
+            .series-list {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .series-item {
+                white-space: nowrap;
+                margin-right: 10px;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部提示栏 -->
+        <div class="top-alert">
+            <div class="alert-content">
+                <div class="alert-text">
+                    <p>
+                        点击需要购买的项目，填好正确邮箱下单，将邮箱收到的<span class="warningRed">【密码】</span>输入到<span class="warningRed">【下载】</span>即可！</br>
+                        未收到邮箱右侧<span class="warningRed">【查询购买订单】</span>按钮</br>
+                               <span class="warningRed">【收藏】</span>本页防失联不迷路！【原创不易，喜欢请支持】
+
+                    </p>
+                </div>
+                <a href="https://www.fansky.net/aadaxiaojie" class="order-btn">查询购买订单</a>
+            </div>
+        </div>
+        
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 左侧系列列表 -->
+            <div class="series-sidebar">
+                <h2>作品系列</h2>
+                <ul class="series-list">
+                    <li class="series-item active" data-series="series1">
+                        <i class="fas fa-book"></i>热门零食
+                    </li>
+                    <li class="series-item" data-series="series2">
+                        <i class="fas fa-book"></i>完结合集
+                    </li>
+                    <li class="series-item" data-series="series3">
+                        <i class="fas fa-book"></i>狩猎*豪乳淫臀美妇们的极限肉欲
+                    </li>
+                    <li class="series-item" data-series="series4">
+                        <i class="fas fa-book"></i>我的极品娇妻与职场女神美母竟然都只是我同桌的精盆
+                    </li>
+                    <li class="series-item" data-series="series5">
+                        <i class="fas fa-book"></i>绿母淫妻
+                    </li>
+                    <li class="series-item" data-series="series6">
+                        <i class="fas fa-book"></i>绿意复仇—我的总裁美母
+                    </li>
+                    <li class="series-item" data-series="series7">
+                        <i class="fas fa-book"></i>豪宅美妇与用人黑奴
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 右侧章节内容 -->
+            <div class="chapters-content">
+                <h2 class="series-title">推荐章节 - 章节列表</h2>
+                <ul class="chapters-list" id="chapters-container">
+                    <!-- 章节内容将通过JavaScript动态生成 -->
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <footer>
+            <p>© 2025 安安大小姐 - 所有权利保留</p>
+        </footer>
+    </div>
+
+    <script>
+        // 模拟数据 - 实际使用时可以替换为真实数据
+        const seriesData = {
+            series1: {
+                title: "热门零食",
+                chapters: [
+                    { name: "【狩猎*豪乳淫臀美妇们的极限肉欲】第六集（完结篇）", purchaseLink: "https://www.fansky.net/aadaxiaojie/22", downloadLink: "https://www.fansky.net/aadaxiaojie/22?tab=download" },
+                    { name: "豪宅美妇与用人黑奴（第一集）", purchaseLink: "https://www.fansky.net/aadaxiaojie/21", downloadLink: "https://www.fansky.net/aadaxiaojie/21?tab=download" },
+                    { name: "我的极品娇妻与职场女神美母竟然都只是我同桌的精盆（中集）", purchaseLink: "https://www.fansky.net/aadaxiaojie/19", downloadLink: "https://www.fansky.net/aadaxiaojie/19?tab=download" },
+                    { name: "我的极品娇妻与职场女神美母竟然都只是我同桌的精盆（下集）", purchaseLink: "https://www.fansky.net/aadaxiaojie/20", downloadLink: "https://www.fansky.net/aadaxiaojie/20?tab=download" },
+                    { name: "绿意复仇—我的总裁美母（合集）", purchaseLink: "https://www.fansky.net/aadaxiaojie/14", downloadLink: "https://www.fansky.net/aadaxiaojie/14?tab=download" },
+                    { name: "我的妈妈不可能被攻略【全篇】", purchaseLink: "https://www.fansky.net/aadaxiaojie/3", downloadLink: "https://www.fansky.net/aadaxiaojie/3?tab=download" },
+                    { name: "绿母淫妻（合集）", purchaseLink: "https://www.fansky.net/aadaxiaojie/17", downloadLink: "https://www.fansky.net/aadaxiaojie/17?tab=download" },
+                ]
+            },
+            series2: {
+                title: "完结合集",
+                chapters: [
+                    { name: "他的轻熟姐妹花【全篇】", purchaseLink: "https://www.fansky.net/aadaxiaojie/1", downloadLink: "https://www.fansky.net/aadaxiaojie/1?tab=download" },
+                    { name: "他的轻熟姐妹花【外传】", purchaseLink: "https://www.fansky.net/aadaxiaojie/2", downloadLink: "https://www.fansky.net/aadaxiaojie/2?tab=download" },
+                    { name: "我的妈妈不可能被攻略【全篇】", purchaseLink: "https://www.fansky.net/aadaxiaojie/3", downloadLink: "https://www.fansky.net/aadaxiaojie/3?tab=download" },
+
+                ]
+            },
+            series3: {
+                title: "狩猎*豪乳淫臀美妇们的极限肉欲",
+                chapters: [
+                    { name: "第一集", purchaseLink: "https://www.fansky.net/aadaxiaojie/9", downloadLink: "https://www.fansky.net/aadaxiaojie/9?tab=download" },
+                    { name: "第二集", purchaseLink: "https://www.fansky.net/aadaxiaojie/10", downloadLink: "https://www.fansky.net/aadaxiaojie/10?tab=download" },
+                    { name: "第三集", purchaseLink: "https://www.fansky.net/aadaxiaojie/11", downloadLink: "https://www.fansky.net/aadaxiaojie/11?tab=download" },
+                    { name: "第四集", purchaseLink: "https://www.fansky.net/aadaxiaojie/12", downloadLink: "https://www.fansky.net/aadaxiaojie/12?tab=download" },
+                    { name: "第五集", purchaseLink: "https://www.fansky.net/aadaxiaojie/13", downloadLink: "https://www.fansky.net/aadaxiaojie/13?tab=download" },
+                    { name: "第六集（完结篇）", purchaseLink: "https://www.fansky.net/aadaxiaojie/22", downloadLink: "https://www.fansky.net/aadaxiaojie/22?tab=download" },
+                ]
+            },
+            series4: {
+                title: "我的极品娇妻与职场女神美母竟然都只是我同桌的精盆",
+                chapters: [
+                    { name: "上集", purchaseLink: "https://www.fansky.net/aadaxiaojie/18", downloadLink: "https://www.fansky.net/aadaxiaojie/18?tab=download" },
+                    { name: "中集", purchaseLink: "https://www.fansky.net/aadaxiaojie/19", downloadLink: "https://www.fansky.net/aadaxiaojie/19?tab=download" },
+                    { name: "下集", purchaseLink: "https://www.fansky.net/aadaxiaojie/20", downloadLink: "https://www.fansky.net/aadaxiaojie/20?tab=download" },
+                ]
+            },
+            series5: {
+                title: "绿母淫妻",
+                chapters: [
+                    { name: "第一集", purchaseLink: "https://www.fansky.net/aadaxiaojie/14", downloadLink: "https://www.fansky.net/aadaxiaojie/14?tab=download" },
+                    { name: "第二集", purchaseLink: "https://www.fansky.net/aadaxiaojie/15", downloadLink: "https://www.fansky.net/aadaxiaojie/15?tab=download" },
+                    { name: "第三集", purchaseLink: "https://www.fansky.net/aadaxiaojie/16", downloadLink: "https://www.fansky.net/aadaxiaojie/16?tab=download" },
+                    { name: "合集", purchaseLink: "https://www.fansky.net/aadaxiaojie/17", downloadLink: "https://www.fansky.net/aadaxiaojie/17?tab=download" },
+                ]
+            },
+            series6: {
+                title: "绿意复仇—我的总裁美母",
+                chapters: [
+                    { name: "第一到七集", purchaseLink: "https://www.fansky.net/aadaxiaojie/14", downloadLink: "https://www.fansky.net/aadaxiaojie/14?tab=download" },
+                    { name: "第八到十四集", purchaseLink: "https://www.fansky.net/aadaxiaojie/14", downloadLink: "https://www.fansky.net/aadaxiaojie/14?tab=download" },
+                    { name: "合集", purchaseLink: "https://www.fansky.net/aadaxiaojie/14", downloadLink: "https://www.fansky.net/aadaxiaojie/14?tab=download" },
+                    { name: "番外篇", purchaseLink: "https://www.fansky.net/aadaxiaojie/14", downloadLink: "https://www.fansky.net/aadaxiaojie/14?tab=download" },
+                    { name: "端午献礼番外", purchaseLink: "https://www.fansky.net/aadaxiaojie/14", downloadLink: "https://www.fansky.net/aadaxiaojie/14?tab=download" },
+                ]
+            },
+            series7: {
+                title: "豪宅美妇与用人黑奴",
+                chapters: [
+                    { name: "第一集", purchaseLink: "https://www.fansky.net/aadaxiaojie/21", downloadLink: "https://www.fansky.net/aadaxiaojie/21?tab=download" },
+                ]
+            },
+        };
+        
+        
+        
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 默认显示第一个系列
+            showSeries('series1');
+            
+            // 添加系列点击事件
+            const seriesItems = document.querySelectorAll('.series-item');
+            seriesItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有active类
+                    seriesItems.forEach(i => i.classList.remove('active'));
+                    // 为当前项添加active类
+                    this.classList.add('active');
+                    // 显示对应系列
+                    const seriesId = this.getAttribute('data-series');
+                    showSeries(seriesId);
+                });
+            });
+        });
+
+        // 显示指定系列的章节
+        function showSeries(seriesId) {
+            const series = seriesData[seriesId];
+            if (!series) return;
+            
+            // 更新标题
+            document.querySelector('.series-title').textContent = `${series.title} - 章节列表`;
+            
+            // 生成章节HTML
+            const chaptersContainer = document.getElementById('chapters-container');
+            chaptersContainer.innerHTML = '';
+            
+            series.chapters.forEach(chapter => {
+                const li = document.createElement('li');
+                li.className = 'chapter-item';
+                li.innerHTML = `
+                    <a href="${chapter.purchaseLink}" class="chapter-link">${chapter.name}</a>
+                    <a href="${chapter.purchaseLink}" class="download-btn">购买</a>　
+                    <a href="${chapter.downloadLink}" class="download-btn">下载</a>
+                `;
+                chaptersContainer.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+
